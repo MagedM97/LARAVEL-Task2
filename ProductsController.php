@@ -114,7 +114,8 @@ class ProductsController extends Controller
         $product->fill($request->post());
 
         $imageUrl = $request->file('image')->store('products', ['disk' => 'public']);
-
+        $product['is_recent'] = $request['is_recent'] ? 1 : 0;
+        $product['is_featured'] = $request['is_featured'] ? 1 : 0;
         $product['image'] = $imageUrl;
 
         $product->save();
