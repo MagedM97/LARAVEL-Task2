@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Color;
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -15,7 +17,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(4);
+        $products = Product::paginate(2);
         return view ('main.admin.products', compact('products'));
     }
 
@@ -27,9 +29,12 @@ class ProductsController extends Controller
     public function create()
     {
         $categories = Category::all();
-        
+        $colors = Color::all();
+        $sizes = Size::all();
         return view('main.admin.product.create')->with([
             'categories' => $categories,
+            'sizes' => $sizes,
+            'colors' => $colors
             
         ]);
 
@@ -80,9 +85,17 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        $categories = Category::all();
+        
         $product = Product::findOrFail($id);
-        return view('main.admin.product.edit', compact('product','categories'));
+        $categories = Category::all();
+        $colors = Color::all();
+        $sizes = Size::all();
+        return view('main.admin.product.edit')->with([
+            'product'=>$product,
+            'categories' => $categories,
+            'sizes' => $sizes,
+            'colors' => $colors
+    ]);
     }
 
     /**
